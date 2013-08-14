@@ -1,0 +1,42 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <title>Real time analytics</title>
+
+    <meta http-equiv="Content-Type" context="text/html;charset=UTF-8">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    
+    <script type="text/javascript">
+
+      var angscope;
+      var lastsent = '';
+      var socket = io.connect('http://localhost:3000');
+
+      function Analytics($scope) {
+        angscope = $scope;
+      }
+      socket.on('connect', function(data){
+          console.log("Status: connected");
+      });
+
+      socket.on('reconnecting', function(data){
+        console.log('Status: reconnecting...');
+      });
+
+      socket.on('message', function(data){
+        console.log("Received a message: ", data);
+
+      });
+
+      socket.on('result', function(data){
+          console.log("RESULT - ", data);
+      });
+    </script>
+  </head>
+  <body ng-controller="Analytics">
+  </body>
+</html>
+
+
