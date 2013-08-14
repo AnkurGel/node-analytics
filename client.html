@@ -16,6 +16,7 @@
 
       function Analytics($scope) {
         angscope = $scope;
+        $scope.entries = [];
       }
       socket.on('connect', function(data){
           console.log("Status: connected");
@@ -31,11 +32,23 @@
       });
 
       socket.on('result', function(data){
+          angscope.entries.push(JSON.parse(data.result));
+          angscope.$apply();
           console.log("RESULT - ", data);
       });
     </script>
   </head>
   <body ng-controller="Analytics">
+    <table border=1 cellspacing=2>
+      <tr ng-repeat="entry in entries">
+        <td>{{ entry.slug }}</td>
+        <td>{{ entry.username }}</td>
+        <td>{{ entry.track_type }}</td>
+        <td>{{ entry.city }}</td>
+        <td>{{ entry.country }}</td>
+        <td>{{ entry.referrer }}</td>
+      </tr>
+    </table>
   </body>
 </html>
 
